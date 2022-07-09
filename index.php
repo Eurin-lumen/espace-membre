@@ -3,13 +3,66 @@
 $bdd = new PDO('mysql:host=localhost;dbname=espace-membre', 'root', '');
 if(isset($_POST['forminscription']))
 {
+     // CONTROLE DE INJECTION DE CODE 
+    $pseudo = htmlspecialchars($_POST['pseudo']);
+    $mail = htmlspecialchars($_POST['mail']);
+    $mail2 = htmlspecialchars($_POST['mail2']);
+    $mdp = sha1($_POST['mdp']);  
+    $mdp2 = sha1($_POST['mdp2']);
 
-    if(!empty($_POST['pseudo']) AND !empty($_POST['mail']) 
-        AND !empty($_POST['mail2']) AND !empty($_POST['mdp']) 
-        AND !empty($_POST['mdp2']))
+    if(!empty($_POST['pseudo']) AND !empty($_POST['mail']) AND !empty($_POST['mail2']) AND !empty($_POST['mdp']) AND !empty($_POST['mdp2']))
         {
+           
+            //
+            $pseudolenght = strlen($pseudo);
+            if($pseudolenght <= 30)
+            {
+                if($mail  == $mail2)
+                   
+                {
+                    if(filter_var($mail, FILTER_VALIDATE_EMAIL))
+                    {
+                        $reqmail = $bdd->prepare("SELECT * FROM membres WHERE mail  = ? ");
+                        $reqmail->execute(array($mail));
+                        $mailexist = $reqmail->rowCount();
+                        if($mailexist == 0)
+                        {
+                            if($mdp == $mdp2)
+                            {
+                                // inserer dans la base inserer dans la base de donnée
+                            $insertmbr = $bdd-> prepare ("INSERT INTO membres(pseudo, mail, motdepasse) VALUES(?, ?, ?)");
+                            $insertmbr->execute(array($pseudo, $mail, $mdp));
+                            $erreur = "Votre compte à bien été crée";
+                          
+                            }
+                            else
+                            {
+                            $erreur = "Vos mots de passe ne correspondent pas !";
 
-            echo "ok"*
+                            }
+                        }
+                        else
+                        {
+                            $erreur = "Adresse mail déja utilisée ! ";
+                        }
+                    }
+                    else
+                    {
+                        $erreur = "Votre addresse mail n'est pas valide";
+
+                    }
+
+                
+                }
+                else
+                {
+                        $erreur = "Vos addresses mail ne correspondent pas !";
+                }
+            }
+            else
+            {
+                $erreur = "Votre pseudo ne doit pas dépasser 30 caractères !";
+            }
 
         }
         else
@@ -46,7 +99,7 @@ if(isset($_POST['forminscription']))
                         <label for="pseudo">Pseudo:</label>
                     </td>
                     <td>
-                        <input type="text" value="" id="pseudo" name ="pseudo" placeholder="Votre pseudo">
+                        <input type="text" value="<?php if(isset($pseudo)) {echo $pseudo; } ?>" id="pseudo" name ="pseudo" placeholder="Votre pseudo">
                     </td>
                 </tr>
                 <tr>
@@ -54,7 +107,7 @@ if(isset($_POST['forminscription']))
                         <label for="mail">Mail:</label>
                     </td>
                     <td align="right">
-                        <input type="email" value="" id="mail"  name ="mail" placeholder="Votre mail">
+                        <input type="email" value="<?php if(isset($mail)) {echo $mail; } ?>" id="mail"  name ="mail" placeholder="Votre mail">
                     </td>
                 </tr>
                 <tr>
@@ -62,7 +115,7 @@ if(isset($_POST['forminscription']))
                         <label for="mail2">Confirmation du Mail:</label>
                     </td>
                     <td>
-                        <input type="email" value="" id="mail2"  name ="mail2" placeholder="Confirmez votre mail">
+                        <input type="email" value="<?php if(isset($mail2)) {echo $mail2; } ?>" id="mail2"  name ="mail2" placeholder="Confirmez votre mail">
                     </td>
                 </tr>
                 <tr>
@@ -99,7 +152,7 @@ if(isset($_POST['forminscription']))
         <?php
         if(isset($erreur))
         {
-            echo $erreur;
+            echo '<font color="red">'. $erreur ."</font>";
         }
         ?>
     </div>

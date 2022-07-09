@@ -1,12 +1,35 @@
 {
     "cSpell.words": [
+        "addresse",
         "avec",
+        "caractères",
+        "complèter",
         "Confirmez",
+        "CONTROLE",
         "Création",
+        "dans",
+        "dépasser",
+        "doivent",
         "erreur",
         "espace",
+        "etre",
         "forminscription",
+        "inserer",
+        "insertmbr",
+        "m'inscris",
+        "membre",
         "membres",
+        "motdepasse",
+        "pseudolenght",
+        "valide",
         "Votre"
-    ]
+    ],
+    "cSpell.customDictionaries": {
+        "custom-dictionary-folder-espace-membre": {
+            "name": "custom-dictionary-folder-espace-membre",
+            "path": "${workspaceFolder:espace-membre}/.cspell/custom-dictionary-folder-espace-membre.txt",
+            "addWords": true,
+            "scope": "folder"
+        }
+    }
 }
