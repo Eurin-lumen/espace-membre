@@ -1,3 +1,30 @@
+<?php
+
+$bdd = new PDO('mysql:host=localhost;dbname=espace-membre', 'root', '');
+if(isset($_POST['forminscription']))
+{
+
+    if(!empty($_POST['pseudo']) AND !empty($_POST['mail']) 
+        AND !empty($_POST['mail2']) AND !empty($_POST['mdp']) 
+        AND !empty($_POST['mdp2']))
+        {
+
+            echo "ok"*
+
+        }
+        else
+        {
+            $erreur = "Tout les champs doivent etre complèter ";
+
+        }
+        
+    
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -59,7 +86,7 @@
                     <td></td>
                     <td align="center">
                         <br>
-                        <input type="submit" value="je m'inscris">
+                        <input type="submit" name="forminscription" value="je m'inscris">
                     </td>
                 
                 </tr>
@@ -69,7 +96,12 @@
 
             
         </form>
-
+        <?php
+        if(isset($erreur))
+        {
+            echo $erreur;
+        }
+        ?>
     </div>
 </body>
 
