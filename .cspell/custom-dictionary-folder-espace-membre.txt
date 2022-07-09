@@ -5,6 +5,7 @@ connexion
 Connexion
 crée
 d'inscrption
+déconnecter
 déconnexion
 déja
 données

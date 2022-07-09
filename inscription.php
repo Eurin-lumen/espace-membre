@@ -32,7 +32,7 @@ if(isset($_POST['forminscription']))
                                 // inserer dans la base inserer dans la base de donnée
                             $insertmbr = $bdd-> prepare ("INSERT INTO membres(pseudo, mail, motdepasse) VALUES(?, ?, ?)");
                             $insertmbr->execute(array($pseudo, $mail, $mdp));
-                            $erreur = "Votre compte à bien été crée";
+                            $erreur = "Votre compte à bien été crée ! <a href =\"connexion.php\">Me connecter</a>";
                             }
                             else
                             {
