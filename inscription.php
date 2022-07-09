@@ -33,7 +33,6 @@ if(isset($_POST['forminscription']))
                             $insertmbr = $bdd-> prepare ("INSERT INTO membres(pseudo, mail, motdepasse) VALUES(?, ?, ?)");
                             $insertmbr->execute(array($pseudo, $mail, $mdp));
                             $erreur = "Votre compte à bien été crée";
-                          
                             }
                             else
                             {

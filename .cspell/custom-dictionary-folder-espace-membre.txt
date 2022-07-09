@@ -1,8 +1,23 @@
 # Custom Dictionary Words
 Adresse
 bien
+connexion
+Connexion
 crée
+d'inscrption
+déconnexion
 déja
+données
+formconnexion
+formulaire
+Identifiant
+mailconnect
 mailexist
+mdpconnect
+profil
 reqmail
+requser
+userexist
+userinfo
+usersinfo
 utilisée
