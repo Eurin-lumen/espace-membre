@@ -4,6 +4,10 @@ la création d'un espace membre avec php
     Validation et controle 
     insertion dans la base de données
 # création de profil connexion et déconnexion
-    creation des formulaire
+    creation des formulaires
+    un problème non résolu au niveau du profil.php : ligne end
+# Édition de profil
+    gestion de profil
+    
     
 
