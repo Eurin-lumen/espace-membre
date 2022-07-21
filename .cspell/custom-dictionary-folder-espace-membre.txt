@@ -28,7 +28,12 @@ newpseudo
 profil
 reqmail
 requser
+resultat
+taillmax
+tmpname
+updateavatar
 userexist
 userinfo
+userpseudo
 usersinfo
 utilisée

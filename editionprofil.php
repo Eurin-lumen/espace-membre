@@ -42,15 +42,48 @@ if(isset($_SESSION['id']))
 
         }
 
-    }
-    if(isset($_POST['newpseudo']) AND $_POST['newpseudo'] == $_POST['userpseudo'] )
-    {
-        header('Location: profil.php?id='.$_SESSION['id']);
 
 
     }
+    if(isset($_FILES['avatar']) AND !empty($_FILES['avatar']['name'])){
+        $taillmax = 2097152;
+        $extensionValide = array('jpg', 'jpeg', 'gif', 'png');
 
-    ?>
+        if($_FILES['avatar']['size'] <= $taillmax){
+            $extensionUpload = strtolower(substr(strrchr($_FILES['avatar']['name'], '.'),1));
+            if(in_array($extensionUpload, $extensionValide)){
+                $chemin = "membres/avatar/".$_SESSION['id']. ".". $extensionUpload;
+                $resultat = move_uploaded_file($_FILES['avatar']['tmp_name'], $chemin);
+                if($resultat){
+                    $updateavatar = $bdd->prepare("UPDATE membres  SET avatar  = :avatar WHERE id= :id");
+                    $updateavatar->execute(array(
+                        'avatar' => $_SESSION['id'].".".$extensionUpload,
+                        'id' => $_SESSION['id']
+                    )); 
+                    header('Location: profil.php?id='.$_SESSION['id']);
+
+
+                }
+                else{
+                    $msg = "Erreur durant l'importation de votre phot de profile";
+                }
+            }
+            else{
+                $msg = "Votre photo de profile ne doit etre au format 'jpg', 'jpeg', 'gif' ou 'png' ";
+            }
+        }else{
+            $msg = "Votre photo de profile ne doit pas dépasser 2 Mo";
+        }
+    }
+
+    // if(isset($_POST['newpseudo']) AND $_POST['newpseudo'] == $_POST['userpseudo'] )
+    // {
+    //     header('Location: profil.php?id='.$_SESSION['id']);
+
+
+    // }
+
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -65,8 +98,13 @@ if(isset($_SESSION['id']))
 <body>
     <div align="center">
         <h2>Édition de mon profil</h2>
+        <br> <br>
+        <?php if(!empty($userinfo['avatar'])): ?>
+        <img src="/membres/avatar/11.jpg" width="auto"/>
+        <?php endif ?>
+        
            
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
                     <label for="">Nouveau Pseudo : </label>
                     <input type="text"   name="newpseudo" id="" placeholder="Pseudo" /> <br> <br>
                             
@@ -79,11 +117,16 @@ if(isset($_SESSION['id']))
                     <label for="">Confirmation - Mot de passe: </label>
                     <input type="password" name="newmdp2" id="" placeholder="Confirmez votre mot de passe"> <br> <br>
                     
+                    <label for="">Avatar :</label>
+                    <input type="file" name="avatar" id=""/>
+
+                    <br> <br>
                     <input type="submit" value="Mettre à jour mon profil !">
+                    
                 </form>
                 <?php
                 //Affiche message d'erreur
-                if(isset($msg)){echo $mgs;} ?>
+                if(isset($msg)){echo $msg;} ?>
             
         
 
